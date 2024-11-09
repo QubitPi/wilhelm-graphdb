@@ -7,22 +7,22 @@ language:
   - grc
   - la
 configs:
-- config_name: Languages
-  data_files:
-  - split: German
-    path: german-wiktextract-data.jsonl
-  - split: Latin
-    path: latin-wiktextract-data.jsonl
-  - split: AncientGreek
-    path: ancient-greek-wiktextract-data.jsonl
+  - config_name: Languages
+    data_files:
+    - split: German
+      path: german-wiktextract-data.jsonl
+    - split: Latin
+      path: latin-wiktextract-data.jsonl
+    - split: AncientGreek
+      path: ancient-greek-wiktextract-data.jsonl
 tags:
-- Wiktionary
-- German
-- Ancient Greek
-- Latin
-- Vocabulary
+  - Wiktionary
+  - German
+  - Ancient Greek
+  - Latin
+  - Vocabulary
 size_categories:
-- 100K<n<1M
+  - 1M<n<10M
 ---
 
 Wilhelm GraphDB - Visualizing Wiktionary in Graph Database
