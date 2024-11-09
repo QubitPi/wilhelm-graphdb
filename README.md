@@ -65,11 +65,27 @@ The available splits are
 Development
 -----------
 
+This section discusses the details of how Docker image is made. It is recommended to go through this process in a remote
+machine such as AWS EC2 because it takes more than a day to load data completely.
+
 Although [the original Wiktionary dump](https://dumps.wikimedia.org/) is available, parsing it  from scratch involves
 rather complicated process. We would probably do it in the future. At present, however, we would simply take the awesome
 works by [tatuylonen](https://github.com/tatuylonen/wiktextract) which has already processed it and presented it in
 [in JSON format](https://kaikki.org/dictionary/rawdata.html). wilhelm-graphdb takes the
 __raw Wiktextract data (JSONL, one object per line)__ option.
+
+### VM Setup
+
+The setup installs 2 packages:
+
+- Docker Engine
+- [wait-on](https://www.npmjs.com/package/wait-on)
+
+```console
+./docker-setup.sh
+```
+
+Then log out of the remote machine and back in.
 
 ### Creating Docker Image
 
@@ -77,7 +93,7 @@ Prerequisite:
 
 - Docker
 - Python 3.10
-- [wait-on](https://www.npmjs.com/package/wait-on)
+
 
 ```console
 git clone git@github.com:QubitPi/wilhelm-graphdb.git
@@ -104,6 +120,15 @@ Creating the following environment variables:
 
 - The loading log can be found at `./load.log`
 - The database UI can now be accessed at http://localhost:7474 which shows how much data has been loaded
+
+```console
+docker cp neo4j-loader:/data .
+docker build -t jack20191124/wilhelm-graphdb:neo4j .
+
+docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+docker push jack20191124/wilhelm-graphdb:neo4j
+```
+
 
 ### Troubleshooting
 

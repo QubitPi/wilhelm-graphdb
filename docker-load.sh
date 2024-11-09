@@ -19,8 +19,6 @@ set -e
 export NEO4J_URI=neo4j://localhost:7687
 export NEO4J_USERNAME=neo4j
 
-wget https://kaikki.org/dictionary/raw-wiktextract-data.jsonl
-
 docker run \
     --publish=7474:7474 \
     --publish=7687:7687 \
@@ -29,16 +27,11 @@ docker run \
     --name neo4j-loader \
     neo4j:5.24-enterprise &
 
+git clone git@github.com:QubitPi/wilhelm-graphdb.git
+cd wilhelm-graphdb
 python3 -m virtualenv .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
 
-wait-on http://localhost:7474
-
-python3 load-basic.py -i ./raw-wiktextract-data.jsonl > load.log
-
-docker cp neo4j-loader:/data .
-docker build -t jack20191124/wilhelm-graphdb:neo4j .
-
-docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-docker push jack20191124/wilhelm-graphdb:neo4j
+wget https://kaikki.org/dictionary/raw-wiktextract-data.jsonl
+nohup python3 load-basic.py -i ./raw-wiktextract-data.jsonl > load.log &
