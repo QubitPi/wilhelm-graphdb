@@ -1,0 +1,8 @@
+.idea/
+.DS_Store
+.venv
+raw-wiktextract-data.jsonl
+load.log
+data/
+__pycache__
+
